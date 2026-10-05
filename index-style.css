@@ -1,0 +1,809 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg-main: #000000;
+  --bg-card: #0a0a0a;
+  --bg-card-hover: #121212;
+  --border-subtle: #222222;
+  --border-strong: #444444;
+  --border-focus: #666666;
+  --text-primary: #ffffff;
+  --text-muted: #888888;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Navigation Bar
+   ========================================================================== */
+
+header {
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.6;
+}
+
+.header-Right {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.header-Right a {
+  font-family: var(--font-mono);
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.25s ease;
+}
+
+.header-Right a:hover,
+.header-Right a.active {
+  color: var(--text-primary);
+}
+
+.header-Right a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--text-primary);
+}
+
+/* ==========================================================================
+   Main Content Container & Animations
+   ========================================================================== */
+
+main {
+  flex: 1;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tagline {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.hero-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle,
+.hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 650px;
+  margin-bottom: 2.5rem;
+}
+
+/* ==========================================================================
+   1. Home Hero Section (Pop-Out Square Frame)
+   ========================================================================== */
+
+.hero-split {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 3.5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+}
+
+@media (max-width: 650px) {
+  .hero-split {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+.profile-frame {
+  flex-shrink: 0;
+  width: 180px;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: #111111;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  position: relative;
+  z-index: 5;
+  /* Smooth pop-out transitions */
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease;
+}
+
+/* Pop out and enlarge your profile picture on hover */
+.profile-frame:hover {
+  width: 240px;
+  height: 240px;
+  transform: translateY(-6px) scale(1.03);
+  border-color: #ffffff;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 255, 255, 0.12);
+  z-index: 20;
+}
+
+.profile-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(110%);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.profile-frame:hover img {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   General Cards Grid (Home & About)
+   ========================================================================== */
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+.card-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.email-link {
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.email-link:hover {
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   2. Talents Page Layout (Pop-Out Enlarge Picture Cards)
+   ========================================================================== */
+
+.talent-card {
+  display: flex;
+  gap: 1.75rem;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.75rem;
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.35s ease,
+              background 0.35s ease,
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.talent-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+  z-index: 15;
+}
+
+.talent-frame {
+  flex-shrink: 0;
+  width: 130px;
+  height: 130px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: #111111;
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease;
+}
+
+/* Pop out and enlarge talent picture */
+.talent-card:hover .talent-frame {
+  width: 180px;
+  height: 180px;
+  transform: scale(1.04);
+  border-color: #ffffff;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.talent-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.talent-card:hover .talent-frame img {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .talent-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ==========================================================================
+   3. Favorites Page Layout (Pop-Out Full-Poster Expansion)
+   ========================================================================== */
+
+.favorites-section {
+  margin-bottom: 3.5rem;
+}
+
+.favorites-header {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.fav-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+}
+
+/* Card pop-out */
+.fav-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: #555555;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.08);
+  z-index: 20;
+}
+
+.fav-media {
+  width: 100%;
+  height: 180px;
+  background: #080808;
+  overflow: hidden;
+  position: relative;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Expands vertically to reveal complete poster */
+.fav-card:hover .fav-media {
+  height: 300px;
+}
+
+.fav-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(100%) contrast(105%);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fav-card:hover .fav-media img {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.03);
+}
+
+.fav-info {
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  transition: background 0.3s ease;
+}
+
+.fav-card:hover .fav-info {
+  background: var(--bg-card-hover);
+}
+
+.fav-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.fav-info span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   4. Testimonials Page Layout (Pop-Out Avatars)
+   ========================================================================== */
+
+.testimonial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.testimonial-card {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              background 0.35s ease,
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.testimonial-card:hover {
+  background: var(--bg-card-hover);
+  border-color: #555555;
+  transform: translateY(-5px);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.7);
+  z-index: 15;
+}
+
+.testimonial-frame {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  background: #111111;
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease;
+}
+
+/* Pop out and enlarge testimonial portrait */
+.testimonial-card:hover .testimonial-frame {
+  width: 185px;
+  height: 185px;
+  transform: scale(1.04);
+  border-color: #ffffff;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.testimonial-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(105%);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.testimonial-card:hover .testimonial-frame img {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.05);
+}
+
+.testimonial-content {
+  flex: 1;
+}
+
+.testimonial-quote {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #d1d5db;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+
+.testimonial-author {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.testimonial-role {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 680px) {
+  .testimonial-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Log Page Layout (Hover-To-Reveal Travels & Food Gallery)
+   ========================================================================== */
+
+/* 3-Destination Stack */
+.travel-group-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+}
+
+/* Individual Destination Block */
+.travel-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 1.5rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.travel-block:hover {
+  background: var(--bg-card-hover);
+  border-color: #555555;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+}
+
+/* Destination Header (Always Visible) */
+.travel-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.travel-block-header h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.travel-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.travel-block:hover .travel-hint {
+  color: var(--text-primary);
+}
+
+/* The Photo Set: Collapsed by default, expands smoothly on hover */
+.travel-photos-tray {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  pointer-events: none;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.4s ease,
+              margin-top 0.4s ease;
+}
+
+/* Hovering reveals all photos */
+.travel-block:hover .travel-photos-tray {
+  max-height: 1200px;
+  opacity: 1;
+  margin-top: 1.5rem;
+  pointer-events: auto;
+}
+
+/* Individual Travel & Food Card Pop-Out */
+.log-item {
+  background: #0d0d0d;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+}
+
+.log-item:hover {
+  transform: translateY(-6px) scale(1.03);
+  border-color: #ffffff;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.08);
+  z-index: 25;
+}
+
+.log-media {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #080808;
+  position: relative;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.log-item:hover .log-media {
+  height: 290px;
+}
+
+.log-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(105%);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.log-item:hover .log-media img {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.04);
+}
+
+.log-caption {
+  padding: 0.8rem 1rem;
+  background: #0d0d0d;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Food Gallery Layout */
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.food-media {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  background: #080808;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.log-item:hover .food-media {
+  height: 280px;
+}
+
+.food-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) contrast(105%);
+  transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.log-item:hover .food-media img {
+  filter: grayscale(0%) contrast(100%);
+  transform: scale(1.04);
+}
+
+/* ==========================================================================
+   Interactive Song Player on Favorites
+   ========================================================================== */
+
+/* Cursor hint */
+.fav-card[data-audio] {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Play/Pause Status Badge */
+.audio-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+/* Card highlight when actively playing */
+.fav-card.is-playing {
+  border-color: #ffffff;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.8);
+}
+
+.fav-card.is-playing .audio-status-pill {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* Equalizer mini-bars */
+.pill-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.pill-bar {
+  width: 2px;
+  height: 3px;
+  background-color: var(--text-muted);
+  border-radius: 1px;
+}
+
+.fav-card.is-playing .pill-bar {
+  background-color: #ffffff;
+  animation: audioWave 0.8s infinite alternate ease-in-out;
+}
+
+.fav-card.is-playing .pill-bar:nth-child(1) { animation-delay: 0.1s; }
+.fav-card.is-playing .pill-bar:nth-child(2) { animation-delay: 0.3s; }
+.fav-card.is-playing .pill-bar:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes audioWave {
+  0% { height: 3px; }
+  50% { height: 10px; }
+  100% { height: 5px; }
+}
